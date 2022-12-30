@@ -4,7 +4,7 @@ import { Container, Center, Text, Stack, Input, Button, Link } from '@chakra-ui/
 function Login() {
   return (
     <Container>
-      <Center display='flex' height='652px' justifyContent='center' alignItems='center' flexDirection='column' gap='20px'>
+      <Center display='flex' height='100vh' justifyContent='center' alignItems='center' flexDirection='column' gap='20px'>
         <Text fontSize='32px' as='b'>ChatYuk</Text>
         <Text fontSize='24px'>Login</Text>
         <Stack spacing='3'>
