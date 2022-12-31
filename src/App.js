@@ -9,12 +9,12 @@ function App() {
   console.log(currentUser, "bro")
 
   const ProtectedRoute = ({ children }) => {
-    if(!currentUser) {
-      return <Navigate to="/login" />
-    } else {
-      return children
+    if (!currentUser) {
+      return <Navigate to="/login" />;
     }
-  }
+
+    return children
+  };
 
   return (
     <Router>

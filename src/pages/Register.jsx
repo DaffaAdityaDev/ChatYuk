@@ -9,12 +9,11 @@ import { auth, storage, db } from '../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore"; 
 
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from '../context/AuthContext';
+import { useNavigate, Link } from "react-router-dom";
 
 function Register() {
     const navigate = useNavigate();
-
+    // TODO: useState for error
     
     const handleSubmit = async(e) => {
         e.preventDefault()
@@ -101,7 +100,7 @@ function Register() {
                     <Button colorScheme="blue" type='submit'>Sign up</Button>
                 </FormControl>
             </form>
-            <p>You do have an account? Log in</p>
+            <p>You do have an account? <Link to='/login'>Log in</Link></p>
         </VStack>
     </Container>
   )
