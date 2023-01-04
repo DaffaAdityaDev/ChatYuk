@@ -7,16 +7,19 @@ import router from "./routes";
 
 import { ChakraProvider } from '@chakra-ui/react'
 import { AuthContextProvider } from "./context/AuthContext";
+import { ChatContextProvider } from './context/ChatContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <AuthContextProvider>
-    <ChakraProvider>
-      <React.StrictMode>
-        {/* <RouterProvider router={router} /> */}
-        <App />
-      </React.StrictMode>
-    </ChakraProvider>
+    <ChatContextProvider>
+      <ChakraProvider>
+        <React.StrictMode>
+          {/* <RouterProvider router={router} /> */}
+          <App />
+        </React.StrictMode>
+      </ChakraProvider>
+    </ChatContextProvider>
   </AuthContextProvider>
 );
 
