@@ -105,7 +105,7 @@ function Navbar() {
             <Text>{user?.displayName}</Text>
           </Box>}
           
-          {Object.entries(chats).map(([key, value]) => (
+          {Object.entries(chats)?.sort((a,b) => b[1].date - a[1].date).map(([key, value]) => (
             
             <Box key={key} onClick={() => handleSelectChat(value.userInfo)}>
               <Image borderRadius='full' boxSize='50px' src={value?.userInfo?.photoURL} alt={value?.userInfo?.name} />
