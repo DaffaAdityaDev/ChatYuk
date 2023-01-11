@@ -13,7 +13,7 @@ function MainMessage({ message }) {
 
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
-  console.log()
+  // console.log()
 
   const handleSend = async () => {
     if (img) {

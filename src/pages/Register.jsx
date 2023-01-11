@@ -1,7 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Input, FormControl, FormLabel, FormErrorMessage, 
     FormHelperText, Container, VStack, HStack, Text, Button,
-    VisuallyHidden } from '@chakra-ui/react'
+    VisuallyHidden, 
+    Box,
+    Center,
+    Stack,
+    Image} from '@chakra-ui/react'
 
 import { PhoneIcon, AddIcon, WarningIcon, PlusSquareIcon } from '@chakra-ui/icons'
 import { getAuth, createUserWithEmailAndPassword,updateProfile } from "firebase/auth";
@@ -13,7 +17,26 @@ import { useNavigate, Link } from "react-router-dom";
 
 function Register() {
     const navigate = useNavigate();
-    // TODO: useState for error
+    const [password, setPassword] = useState("")
+    const [passLength, setpassLength] = useState()
+    const [email, setEmail] = useState("")
+    const [isValidEmail, setIsValidEmail] = useState()
+    const [selectedFile, setSelectedFile] = useState()
+    const [preview, setPreview] = useState()
+    const [err, setErr] = useState()
+
+    useEffect(() => {
+      if (!selectedFile) {
+        setPreview(undefined)
+        return
+      }
+
+      const objectUrl = URL.createObjectURL(selectedFile)
+      setPreview(objectUrl)
+
+      // free memory when ever this component is unmounted
+      return () => URL.revokeObjectURL(objectUrl)
+  }, [selectedFile])
     
     const handleSubmit = async(e) => {
         e.preventDefault()
@@ -59,50 +82,101 @@ function Register() {
                     navigate('/')
                   } catch (err) {
                     console.log(err);
-                   
+                    setErr(err)
                   }
                 });
               });
 
         } catch (error) {
-            console.log(error)
+          console.log(error)
+          setErr(error.message)
         }
     }
-    async function test() {
-        // await setDoc(doc(db, "cities", "LA"), {
-        //     name: "Los Angeles",
-        //     state: "CA",
-        //     country: "USA"
-        //   });
-        navigate ('/')
-        console.log("test")
+    function handlePass(e) {
+      setPassword(e.target.value)
+      if (e.target.value.length <= 6) {
+        setpassLength(true)
+      } else {
+        setpassLength(false)
+      }
+    }
+    function handleEmail(e) {
+      setEmail(e.target.value)
+      let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if ( re.test(email) ) {
+          // this is a valid email address
+          // call setState({email: email}) to update the email
+          // or update the data in redux store.
+        setIsValidEmail(false)
+      }
+      else {
+          // invalid email, maybe show an error to the user.
+        setIsValidEmail(true)
+      }
     }
 
+    function handleImg(e) {
+      if (!e.target.files || e.target.files.length === 0) {
+        setSelectedFile(undefined)
+        return
+      }
+
+      // I've kept this example simple by using the first image instead of multiple
+      setSelectedFile(e.target.files[0])
+    }
+
+    console.log(err)
+
   return (
-    <Container>
-        <VStack>
-            <span className="logo">ChatYuk</span>
-            <span className="title">Register</span>
-            {/* <button onClick={test}>test</button> */}
+    <Box bgGradient='linear(to-r, #009FFF, #ec2F4B)' > 
+      <Center display='flex' height='100vh' width="100vw" justifyContent='center' alignItems='center' flexDirection='column'>
+        <Box w="400px" h="fit-content" bgColor="rgba(255,255,255, 0.15)" blur="5px" borderWidth='1px' borderRadius='lg'>
+          <VStack>
+            <Text fontSize='32px' as='b' color="white">ChatYuk</Text>
+            <Text fontSize='24px' mb="1rem" color="white">Register</Text>
+            {err && <Text color="red.500" mb="1rem" bgColor="rgba(255,255,255, 0.5)" px="1rem" borderRadius="md" fontWeight="bold">{err}</Text>}
             <form onSubmit={handleSubmit}>
                 <FormControl>
-                    <Input type="text" placeholder="display name"/>
-                    <Input type="email" placeholder="email"/>
-                    <Input type="password" placeholder='password'/>
+                  <Stack spacing='3' mb="1rem">
+                    <Input type="text" color="white" placeholder="Nama Akun"  height='48px' width='322px' variant="filled"/>
+                    {isValidEmail ? <Text fontSize='14px' color="red">Email tidak valid</Text> 
+                    : isValidEmail === false ? <Text fontSize='14px' color="#94FDB9">Email valid</Text>
+                    : null}
+                    <Input type="email" color="white" height='48px' width='322px' variant="filled" placeholder="email"
+                    onChange={(e) => handleEmail(e)} value={email}/>
+                    {passLength ? <Text fontSize='14px' color="red">Password harus lebih dari 6 karakter</Text> 
+                    : passLength === false ? <Text fontSize='14px' color="#94FDB9">Password harus lebih dari 6 karakter</Text> 
+                    : null}
+                    <Input type="password" color="white" height='48px' width='322px' variant="filled" placeholder='password' 
+                    onChange={(e) => handlePass(e)} value={password}/>
+                  </Stack>
                     <VisuallyHidden>
-                        <Input type="file" id='file'/>
+                      <Input type="file" id='file' onChange={handleImg}/>
                     </VisuallyHidden> 
-                    <label htmlFor='file'>
+                    <label htmlFor='file' >
+                      <Center>
                         <HStack>
-                            <PlusSquareIcon w={50} h={50} />
+                          {selectedFile ? <Image src={preview} alt="profile" boxSize="50px" borderRadius="full" /> :
+                          <PlusSquareIcon w={50} h={50} />}
+                          <Text fontSize='16px' color="white">Upload Foto Profil kamu</Text>
                         </HStack>
-                    </label>          
-                    <Button colorScheme="blue" type='submit'>Sign up</Button>
+                      </Center>
+                    </label>   
+                    <Center mt="1rem">
+                      <Button height='48px' width='155px' colorScheme='blue' type='submit'>Sign up</Button>
+                    </Center>       
                 </FormControl>
-            </form>
-            <p>You do have an account? <Link to='/login'>Log in</Link></p>
-        </VStack>
-    </Container>
+              </form>
+
+              <Text fontSize='14px' mt="1rem" pb="1rem" color="white">Sudah punya akun? 
+                <Text as='b' color="teal.200">
+                  <Link to='/login'> Log in</Link>
+                </Text>
+              </Text>
+          </VStack>
+        </Box>
+      </Center>
+    </Box>
   )
 }
 
