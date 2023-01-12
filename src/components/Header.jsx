@@ -11,7 +11,7 @@ function Header() {
   return (
 
     <Flex alignItems='center' height="100%" px="1rem">
-      <Text fontSize="2xl">{data.user?.displayName}</Text>
+      <Text fontSize="2xl" color="white">{data.user?.displayName}</Text>
       <Divider orientation='vertical' h="24px" ml="0.5rem" />
       <Spacer />
       <Button onClick={() => signOut(auth)}>Logout</Button>

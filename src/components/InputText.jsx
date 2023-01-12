@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Image, Input } from '@chakra-ui/react'
+import { Box, Button, Center, Flex, HStack, Image, Input, Text } from '@chakra-ui/react'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { ChatContext } from '../context/ChatContext'
@@ -6,16 +6,32 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { db, storage } from '../firebase';
 import { v4 as uuid } from "uuid";
 import { Timestamp, arrayUnion, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { PlusSquareIcon } from '@chakra-ui/icons';
 
 function InputText({ message }) {
   const [text, setText] = useState("");
   const [img, setImg] = useState(null);
+  const [preview, setPreview] = useState();
 
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
-  // console.log()
+
+  useEffect(() => {
+    if(!img) {
+      return
+    }
+  
+    const objectUr = URL.createObjectURL(img)
+    setPreview(objectUr)
+
+    return () => URL.revokeObjectURL(objectUr)
+  }, [img])
+
 
   const handleSend = async () => {
+    if(text.length === 0 && !img) return
+    setText("");
+    setImg(null);
     if (img) {
       const storageRef = ref(storage, uuid());
 
@@ -63,21 +79,29 @@ function InputText({ message }) {
       },
       [data.chatId + ".date"]: serverTimestamp(),
     });
-
-    setText("");
-    setImg(null);
+    
   };
+
+
   return (
-    <Flex align="center" height="100%" gap="1rem" mx="1rem">
+    <Flex align="center" height="100%" gap="1rem" mx="1rem" color="white">
       <Input
+        color="white"
         type="file"
         onChange={(e) => setImg(e.target.files[0])}
         style={{ display: "none" }}
         id="file"
-
       />
-      <label htmlFor="file">Upload</label>
+      <label htmlFor="file">
+      <Center>
+        <HStack>
+          {img ? <Image src={preview} alt="profile" boxSize="50px" borderRadius="full" /> :
+          <PlusSquareIcon w={50} h={50} />}
+        </HStack>
+      </Center>
+      </label>
       <Input
+        color="white"
         type="text"
         value={text}
         placeholder="Type a message"
@@ -85,8 +109,7 @@ function InputText({ message }) {
         onChange={(e) => setText(e.target.value)}
       />
       
-      
-      <Button onClick={handleSend}>Send</Button>
+      <Button onClick={handleSend}  colorScheme='messenger'>Send</Button>
     </Flex>
   )
 }

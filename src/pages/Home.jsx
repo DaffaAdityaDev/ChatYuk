@@ -19,19 +19,19 @@ function Home() {
         color='blackAlpha.700'
         fontWeight='bold'
       >
-        <GridItem bg='orange.300' area={'header'}>
+        <GridItem bg='gray.800' boxShadow="base" area={'header'} >
           <Header />
         </GridItem>
-        <GridItem bg='pink.300' area={'nav'} >
+        <GridItem bg='gray.900' area={'nav'}>
           <Navbar />
         </GridItem>
-        <GridItem bg='green.300' area={'main'} overflow="auto">
+        <GridItem bg='gray.700' area={'main'} overflow="auto">
           <Box height="100px">
             <Main />
           </Box>
         </GridItem>
         
-        <GridItem bg='blue.300' area={'input'} overflow="auto">
+        <GridItem bg='gray.700' area={'input'} overflow="auto">
           <Box height="100px">
             <InputText />
           </Box>

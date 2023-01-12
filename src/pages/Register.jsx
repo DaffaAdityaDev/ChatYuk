@@ -14,6 +14,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore"; 
 
 import { useNavigate, Link } from "react-router-dom";
+import LoadingModal from '../components/LoadingModal';
 
 function Register() {
     const navigate = useNavigate();
@@ -23,6 +24,7 @@ function Register() {
     const [isValidEmail, setIsValidEmail] = useState()
     const [selectedFile, setSelectedFile] = useState()
     const [preview, setPreview] = useState()
+    const [isRedirect, setIsRedirect] = useState(false)
     const [err, setErr] = useState()
 
     useEffect(() => {
@@ -50,6 +52,7 @@ function Register() {
 
             const date = new Date().getTime();
             const storageRef = ref(storage, `${displayName + date}`);
+            setIsRedirect(true)
 
             // Register three observers:
             // 1. 'state_changed' observer, called any time the state changes
@@ -79,6 +82,7 @@ function Register() {
           
                     //create empty user chats on firestore
                     await setDoc(doc(db, "userChats", res.user.uid), {});
+                    
                     navigate('/')
                   } catch (err) {
                     console.log(err);
@@ -125,8 +129,11 @@ function Register() {
       setSelectedFile(e.target.files[0])
     }
 
-    console.log(err)
+    // function test() {
+    //   setIsRedirect(true)
+    // }
 
+    
   return (
     <Box bgGradient='linear(to-r, #009FFF, #ec2F4B)' > 
       <Center display='flex' height='100vh' width="100vw" justifyContent='center' alignItems='center' flexDirection='column'>
@@ -134,6 +141,8 @@ function Register() {
           <VStack>
             <Text fontSize='32px' as='b' color="white">ChatYuk</Text>
             <Text fontSize='24px' mb="1rem" color="white">Register</Text>
+            <LoadingModal isRedirect={isRedirect}/>
+            {/* <button onClick={test}>Test</button> */}
             {err && <Text color="red.500" mb="1rem" bgColor="rgba(255,255,255, 0.5)" px="1rem" borderRadius="md" fontWeight="bold">{err}</Text>}
             <form onSubmit={handleSubmit}>
                 <FormControl>
@@ -175,6 +184,7 @@ function Register() {
               </Text>
           </VStack>
         </Box>
+        
       </Center>
     </Box>
   )
