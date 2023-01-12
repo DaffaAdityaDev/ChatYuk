@@ -1,4 +1,4 @@
-import { Box, Button, Text } from '@chakra-ui/react'
+import { Box, Button, Divider, Flex, Spacer, Text } from '@chakra-ui/react'
 import React, { useContext } from 'react'
 import { signOut } from 'firebase/auth'
 import { auth } from '../firebase'
@@ -9,11 +9,15 @@ function Header() {
   // console.log(data)
   
   return (
-    <Box>
-      <Text>{data.user?.displayName}</Text>
+
+    <Flex alignItems='center' height="100%" px="1rem">
+      <Text fontSize="2xl">{data.user?.displayName}</Text>
+      <Divider orientation='vertical' h="24px" ml="0.5rem" />
+      <Spacer />
       <Button onClick={() => signOut(auth)}>Logout</Button>
-    </Box>
+    </Flex>
   )
+   
 }
 
 export default Header

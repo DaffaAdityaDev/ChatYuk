@@ -1,6 +1,6 @@
 import React, { cloneElement, useContext, useEffect, useState } from 'react'
 import { Flex, Spacer,  Box, Grid, GridItem, Input, Image, Text } from '@chakra-ui/react'
-import OtherUser from './OtherUser'
+import User from './User'
 import { collection, query, where, getDocs, setDoc, doc, updateDoc, serverTimestamp, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from '../firebase'
 import { async } from '@firebase/util';
@@ -15,6 +15,8 @@ function Navbar() {
   
   const { currentUser } = useContext(AuthContext)
   const { dispatch } = useContext(ChatContext)
+
+  // console.log(currentUser)
 
   useEffect(() => {
     const getChats = () => {
@@ -99,22 +101,29 @@ function Navbar() {
     <>
       <Flex direction="column" justify="space-between" align="center" h="100%">
         <Box w='80%'>
-          <Input placeholder="Find User" size="md" onKeyDown={handleKey} onChange={e => setUserName(e.target.value)} value={userName}/>
-          {user && <Box onClick={handleSelect}>
-            <Image borderRadius='full' boxSize='50px' src={user?.photoURL} alt={user?.name} />
+          <Input placeholder="Find User" size="md" onKeyDown={handleKey} onChange={e => setUserName(e.target.value)} value={userName} mt="1rem"/>
+          {user && <Box onClick={handleSelect} my="1rem">
+            <Text>Result</Text>
+            <Image borderRadius='full' boxSize='50px' src={user?.photoURL} 
+            alt={user?.name} fallbackSrc='https://via.placeholder.com/150'/>
             <Text>{user?.displayName}</Text>
-          </Box>}
+          </Box>
+          }
           
+          <Text>Last massages</Text>
           {Object.entries(chats)?.sort((a,b) => b[1].date - a[1].date).map(([key, value]) => (
             
-            <Box key={key} onClick={() => handleSelectChat(value.userInfo)}>
-              <Image borderRadius='full' boxSize='50px' src={value?.userInfo?.photoURL} alt={value?.userInfo?.name} />
+            <Flex key={key} onClick={() => handleSelectChat(value.userInfo)} align="center" gap="1rem" my="0.5rem">
+              <Image borderRadius='full' boxSize='50px' src={value?.userInfo?.photoURL} 
+              alt={value?.userInfo?.name} fallbackSrc='https://via.placeholder.com/150' />
               <Text>{value?.userInfo?.displayName}</Text>
-            </Box>
+            </Flex>
           ))}
         </Box>
-        <Box w='80%' h='80px' bg='red.400' >
-          <OtherUser />
+        <Box w='80%' h='80px' >
+          <User 
+            name={currentUser.displayName} 
+            photo={currentUser.photoURL}/>
         </Box>
       </Flex>
     </>

@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Input } from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Input } from '@chakra-ui/react'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { ChatContext } from '../context/ChatContext'
@@ -7,7 +7,7 @@ import { db, storage } from '../firebase';
 import { v4 as uuid } from "uuid";
 import { Timestamp, arrayUnion, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 
-function MainMessage({ message }) {
+function InputText({ message }) {
   const [text, setText] = useState("");
   const [img, setImg] = useState(null);
 
@@ -68,26 +68,27 @@ function MainMessage({ message }) {
     setImg(null);
   };
   return (
-    <Box>
-      <Flex>
-        <Input
-          type="text"
-          value={text}
-          placeholder="Type a message"
-          onChange={(e) => setText(e.target.value)}
-        />
-        <Input
-          type="file"
-          onChange={(e) => setImg(e.target.files[0])}
-          style={{ display: "none" }}
-          id="file"
+    <Flex align="center" height="100%" gap="1rem" mx="1rem">
+      <Input
+        type="file"
+        onChange={(e) => setImg(e.target.files[0])}
+        style={{ display: "none" }}
+        id="file"
 
-        />
-        <label htmlFor="file">Upload</label>
-        <button onClick={handleSend}>Send</button>
-      </Flex>
-    </Box>
+      />
+      <label htmlFor="file">Upload</label>
+      <Input
+        type="text"
+        value={text}
+        placeholder="Type a message"
+        size="lg"
+        onChange={(e) => setText(e.target.value)}
+      />
+      
+      
+      <Button onClick={handleSend}>Send</Button>
+    </Flex>
   )
 }
 
-export default MainMessage
+export default InputText
