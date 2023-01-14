@@ -21,7 +21,7 @@ function Navbar() {
 
   let last = Object.keys(chats)[Object.keys(chats).length - 1]
 
-  // console.log(chats)
+  console.log(chats)
 
   useEffect(() => {
     if(lastChat !== last) {
@@ -72,6 +72,7 @@ function Navbar() {
   
   const handleSelect = async () => {
     //check whether the group(chats in firestore) exists, if not create
+    if(!user) return
     
     const combinedId =
       currentUser.uid > user.uid
@@ -112,14 +113,23 @@ function Navbar() {
   }
 
   const handleSelectChat = (user) => {
+    if(!user) return
     dispatch({type: 'CHANGE_USER', payload: user})
     setSelectChat(user.uid)
+  }
+
+  const hideScroolbar = {
+    "::-webkit-scrollbar": {
+      display: "none"
+    },
+    MsOverflowStyle: "none",  /* Internet Explorer 10+ */
+    scrollbarWidth: "none",  /* Firefox */
   }
 
   return (
     <>
       <Flex direction="column" justify="space-between" align="center" h="100vh" color="white">
-        <Box w='100%' height="100%" overflowY="scroll">
+        <Box w='100%' height="100%" overflowY="scroll" sx={ hideScroolbar }>
           <Input placeholder="Find User" size="md" onKeyDown={handleKey} onChange={e => setUserName(e.target.value)} value={userName} mt="1rem"/>
           {user && <Box onClick={handleSelect} my="1rem">
             <Text>Result</Text>
@@ -131,18 +141,21 @@ function Navbar() {
           
           <Text color="white">Last massages</Text>
           {Object.entries(chats)?.sort((a,b) => b[1].date - a[1].date).map(([key, value]) => (
-            selectChat === value.userInfo.uid ? <Flex key={key} onClick={() => handleSelectChat(value.userInfo)} align="center" gap="1rem" my="0.5rem" 
+            selectChat === value.userInfo?.uid ? <Flex key={key} onClick={() => handleSelectChat(value.userInfo)} align="center" gap="1rem" my="0.5rem" 
             bgColor="whiteAlpha.400" color="white" p="1rem" borderRadius="md">
               <Image borderRadius='full' boxSize='50px' src={value?.userInfo?.photoURL} 
               alt={value?.userInfo?.name} fallbackSrc='https://via.placeholder.com/150' />
-              <Text color="white">{value?.userInfo?.displayName}</Text>
+              <Box>
+                <Text color="white" fontSize="xl">{value?.userInfo?.displayName}</Text>
+                <Text color="white" fontSize="sm" fontWeight="light" width="5rem" isTruncated>{value?.lastMessage?.text}</Text>
+              </Box>
             </Flex> : <Flex key={key} onClick={() => handleSelectChat(value.userInfo)} align="center" gap="1rem" my="0.5rem"
             p="1rem">
               <Image borderRadius='full' boxSize='50px' src={value?.userInfo?.photoURL} 
               alt={value?.userInfo?.name} fallbackSrc='https://via.placeholder.com/150' />
               <Box>
                 <Text color="white" fontSize="xl">{value?.userInfo?.displayName}</Text>
-                <Text color="white" fontSize="sm" fontWeight="light">{value?.lastMessage?.text}</Text>
+                <Text color="white" fontSize="sm" fontWeight="light" width="5rem" isTruncated>{value?.lastMessage?.text}</Text>
               </Box>
             </Flex>
           ))}

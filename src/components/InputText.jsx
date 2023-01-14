@@ -16,6 +16,9 @@ function InputText({ message }) {
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
+  // console.log(data.chatId === "null")
+  // console.log(data)
+
   useEffect(() => {
     if(!img) {
       return
@@ -27,9 +30,13 @@ function InputText({ message }) {
     return () => URL.revokeObjectURL(objectUr)
   }, [img])
 
-
   const handleSend = async () => {
-    if(text.length === 0 && !img) return
+    if(text.length <= 0 && !img || data.chatId === "null") {
+      setImg(null);
+      setText("");
+      return
+    }
+    // console.log("send")
     setText("");
     setImg(null);
     if (img) {
@@ -84,13 +91,14 @@ function InputText({ message }) {
 
 
   return (
-    <Flex align="center" height="100%" gap="1rem" mx="1rem" color="white">
+    data.chatId !== "null" ? <Flex align="center" height="100%" gap="1rem" mx="1rem" color="white">
       <Input
         color="white"
         type="file"
         onChange={(e) => setImg(e.target.files[0])}
         style={{ display: "none" }}
         id="file"
+        accept='image/*'
       />
       <label htmlFor="file">
       <Center>
@@ -110,7 +118,7 @@ function InputText({ message }) {
       />
       
       <Button onClick={handleSend}  colorScheme='messenger'>Send</Button>
-    </Flex>
+    </Flex> : null
   )
 }
 

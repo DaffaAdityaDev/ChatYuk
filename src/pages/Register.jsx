@@ -49,7 +49,6 @@ function Register() {
 
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password)
-
             const date = new Date().getTime();
             const storageRef = ref(storage, `${displayName + date}`);
             setIsRedirect(true)
@@ -147,17 +146,18 @@ function Register() {
             <form onSubmit={handleSubmit}>
                 <FormControl>
                   <Stack spacing='3' mb="1rem">
-                    <Input type="text" color="white" placeholder="Nama Akun"  height='48px' width='322px' variant="filled"/>
+                    <Input type="text" color="white" placeholder="Nama Akun"  height='48px' width='322px' variant="outline"
+                    focusBorderColor='lime'/>
                     {isValidEmail ? <Text fontSize='14px' color="red">Email tidak valid</Text> 
                     : isValidEmail === false ? <Text fontSize='14px' color="#94FDB9">Email valid</Text>
                     : null}
-                    <Input type="email" color="white" height='48px' width='322px' variant="filled" placeholder="email"
-                    onChange={(e) => handleEmail(e)} value={email}/>
+                    <Input type="email" color="white" height='48px' width='322px' variant="outline" placeholder="email"
+                    onChange={(e) => handleEmail(e)} value={email} focusBorderColor={!isValidEmail ? "lime" : "crimson"}/>
                     {passLength ? <Text fontSize='14px' color="red">Password harus lebih dari 6 karakter</Text> 
                     : passLength === false ? <Text fontSize='14px' color="#94FDB9">Password harus lebih dari 6 karakter</Text> 
                     : null}
-                    <Input type="password" color="white" height='48px' width='322px' variant="filled" placeholder='password' 
-                    onChange={(e) => handlePass(e)} value={password}/>
+                    <Input type="password" color="white" height='48px' width='322px' variant="outline" placeholder='password' 
+                    onChange={(e) => handlePass(e)} value={password} focusBorderColor={!passLength ? "lime" : "crimson"}/>
                   </Stack>
                     <VisuallyHidden>
                       <Input type="file" id='file' onChange={handleImg}/>

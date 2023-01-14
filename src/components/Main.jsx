@@ -12,6 +12,8 @@ function Main() {
   const { data } = useContext(ChatContext)
   const { currentUser } = useContext(AuthContext);
 
+  // console.log(messages)
+
   const ref = useRef()
 
   useEffect(() => {
@@ -52,7 +54,7 @@ function Main() {
 
         // </Box>
         <Flex direction="column" ref={ref}>
-          {message.senderId === currentUser.uid ? <Flex alignSelf="flex-end" flexDirection="row-reverse" mt="1rem" mx="1rem">
+          {currentUser && message.senderId === currentUser.uid ? <Flex alignSelf="flex-end" flexDirection="row-reverse" mt="1rem" mx="1rem">
             <Image src={currentUser.photoURL} borderRadius="full" boxSize="80px" alt="your chat" ml="1rem"/>
             <Flex flexDirection="column" borderRadius="md" maxW="600px">
               <Text bgColor="white" borderRadius="lg" px="0.5rem" mb="0.5rem">{message.text}</Text>
