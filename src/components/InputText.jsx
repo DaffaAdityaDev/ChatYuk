@@ -99,6 +99,7 @@ function InputText({ message }) {
         style={{ display: "none" }}
         id="file"
         accept='image/*'
+        
       />
       <label htmlFor="file">
       <Center>

@@ -147,17 +147,19 @@ function Register() {
                 <FormControl>
                   <Stack spacing='3' mb="1rem">
                     <Input type="text" color="white" placeholder="Nama Akun"  height='48px' width='322px' variant="outline"
-                    focusBorderColor='lime'/>
+                    focusBorderColor='lime' _placeholder={{ opacity: 0.8, color: 'white' }}/>
                     {isValidEmail ? <Text fontSize='14px' color="red">Email tidak valid</Text> 
                     : isValidEmail === false ? <Text fontSize='14px' color="#94FDB9">Email valid</Text>
                     : null}
                     <Input type="email" color="white" height='48px' width='322px' variant="outline" placeholder="email"
-                    onChange={(e) => handleEmail(e)} value={email} focusBorderColor={!isValidEmail ? "lime" : "crimson"}/>
+                    onChange={(e) => handleEmail(e)} value={email} focusBorderColor={!isValidEmail ? "lime" : "crimson"}
+                    _placeholder={{ opacity: 0.8, color: 'white' }}/>
                     {passLength ? <Text fontSize='14px' color="red">Password harus lebih dari 6 karakter</Text> 
                     : passLength === false ? <Text fontSize='14px' color="#94FDB9">Password harus lebih dari 6 karakter</Text> 
                     : null}
                     <Input type="password" color="white" height='48px' width='322px' variant="outline" placeholder='password' 
-                    onChange={(e) => handlePass(e)} value={password} focusBorderColor={!passLength ? "lime" : "crimson"}/>
+                    onChange={(e) => handlePass(e)} value={password} focusBorderColor={!passLength ? "lime" : "crimson"}
+                    _placeholder={{ opacity: 0.8, color: 'white' }}/>
                   </Stack>
                     <VisuallyHidden>
                       <Input type="file" id='file' onChange={handleImg}/>

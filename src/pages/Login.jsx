@@ -68,12 +68,14 @@ function Login() {
                     : isValidEmail === false ? <Text fontSize='14px' color="#94FDB9">Email valid</Text>
                     : null}
                     <Input type="email" color="white" height='48px' width='322px' variant="outline" placeholder="email"
-                    onChange={(e) => handleEmail(e)} value={email} focusBorderColor={!isValidEmail ? "lime" : "crimson"}/>
+                    onChange={(e) => handleEmail(e)} value={email} focusBorderColor={!isValidEmail ? "lime" : "crimson"}
+                    _placeholder={{ opacity: 0.8, color: 'white' }}/>
                     {passLength ? <Text fontSize='14px' color="red">Password harus lebih dari 6 karakter</Text> 
                     : passLength === false ? <Text fontSize='14px' color="#94FDB9">Password harus lebih dari 6 karakter</Text> 
                     : null}
                     <Input type="password" color="white" height='48px' width='322px' variant="outline" placeholder='password' 
-                    onChange={(e) => handlePass(e)} value={password} focusBorderColor={!passLength ? "lime" : "crimson"}/>
+                    onChange={(e) => handlePass(e)} value={password} focusBorderColor={!passLength ? "lime" : "crimson"}
+                    _placeholder={{ opacity: 0.8, color: 'white' }}/>
                   </Stack>
                   <Center pt="2rem">
                     <Button height='48px' width='155px' colorScheme='blue' type='submit'>Sign In</Button>
