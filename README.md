@@ -1,4 +1,4 @@
-# Next dumy netflix
+# ChatYuk
 ![alt text](/public/chatyuk.JPG)
 Realtime Chating App, powered by [Firebase](https://firebase.google.com/).
 [Demo link](https://chatyuk.netlify.app/)
