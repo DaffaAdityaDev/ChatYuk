@@ -44,11 +44,11 @@ function LoadingModal({isRedirect}) {
         {overlay}
         <ModalContent>
             <ModalHeader>Mengalihkan Halaman</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-            <Text>Akun anda terdaftar</Text>
-            </ModalBody>
-            <ModalFooter>
+                <ModalCloseButton />
+                    <ModalBody>
+                        <Text>Akun anda terdaftar</Text>
+                    </ModalBody>
+                <ModalFooter>
             </ModalFooter>
         </ModalContent>
         </Modal>

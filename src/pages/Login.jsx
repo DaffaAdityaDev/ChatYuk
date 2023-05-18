@@ -50,10 +50,9 @@ function Login() {
       }
     }
 
-
   
   return (
-    <Box bgGradient='linear(to-r, #009FFF, #ec2F4B)' >
+    <Box bgGradient='linear(to-r, #009FFF, #ec2F4B)'>
       <Center display='flex' height='100vh' width="100vw" justifyContent='center' alignItems='center' flexDirection='column' >
         <Box w="400px" h="fit-content" bgColor="rgba(255,255,255, 0.15)" blur="5px" borderRadius='lg'>
           <Box backdropFilter='auto' backdropBlur='20px' borderWidth='1px' borderRadius='lg'>
@@ -61,7 +60,7 @@ function Login() {
               <Text fontSize='32px' as='b' color="white">ChatYuk</Text>
               <Text fontSize='24px' mb="1rem" color="white">Login</Text>
               {err && <Text color="red.500" mb="1rem" bgColor="rgba(255,255,255, 0.5)" px="1rem" borderRadius="md" fontWeight="bold">{err}</Text>}
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit}> 
                 <FormControl>
                   <Stack spacing='3'>
                   {isValidEmail ? <Text fontSize='14px' color="red">Email tidak valid</Text> 

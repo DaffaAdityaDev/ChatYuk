@@ -12,8 +12,6 @@ function Main() {
   const { data } = useContext(ChatContext)
   const { currentUser } = useContext(AuthContext);
 
-  // console.log(messages)
-
   const ref = useRef()
 
   useEffect(() => {
@@ -26,7 +24,6 @@ function Main() {
     }
   }, [messages])
 
-  // console.log(data)
 
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
@@ -36,6 +33,7 @@ function Main() {
     return () => {
       unSub();
     };
+    
   }, [data.chatId]);
 
 
