@@ -33,13 +33,7 @@ function LoadingModal({isRedirect}) {
     
     return (
     <>
-        {/* <Button
-        onClick={() => {
-            onOpen()
-        }}
-        >
-        Use Overlay one
-        </Button> */}
+
         <Modal isCentered isOpen={isOpen} onClose={onClose}>
         {overlay}
         <ModalContent>
